@@ -1,41 +1,46 @@
-import Link from "next/link"
+"use client"
 
-const categories = [
-  {
-    name: "Necklaces",
-    description: "Elegant chains & pendants",
-    image: "/gold-necklace-pendant-luxury-jewelry-on-cream-back.jpg",
-    href: "/shop/necklaces",
-  },
-  {
-    name: "Rings",
-    description: "Statement pieces & bands",
-    image: "/gold-diamond-ring-luxury-jewelry-on-cream-backgrou.jpg",
-    href: "/shop/rings",
-  },
-  {
-    name: "Earrings",
-    description: "Studs, hoops & drops",
-    image: "/gold-earrings-drop-luxury-jewelry-on-cream-backgro.jpg",
-    href: "/shop/earrings",
-  },
-]
+import Link from "next/link"
+import { useLanguage } from "@/lib/language-context"
 
 export function FeaturedCategories() {
+  const { t } = useLanguage()
+
+  const categories = [
+    {
+      name: t.categories.necklaces,
+      description: t.categories.necklacesDesc,
+      image: "/gold-necklace-pendant-luxury-jewelry-on-cream-back.jpg",
+      href: "/shop/necklaces",
+    },
+    {
+      name: t.categories.rings,
+      description: t.categories.ringsDesc,
+      image: "/gold-diamond-ring-luxury-jewelry-on-cream-backgrou.jpg",
+      href: "/shop/rings",
+    },
+    {
+      name: t.categories.earrings,
+      description: t.categories.earringsDesc,
+      image: "/gold-earrings-drop-luxury-jewelry-on-cream-backgro.jpg",
+      href: "/shop/earrings",
+    },
+  ]
+
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
           <div className="flex items-center justify-center gap-4 mb-6">
             <div className="h-px w-12 bg-accent" />
-            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">Collections</span>
+            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.categories.badge}</span>
             <div className="h-px w-12 bg-accent" />
           </div>
           <h2 className="font-serif text-3xl tracking-tight text-foreground sm:text-4xl md:text-5xl">
-            Shop by Category
+            {t.categories.title}
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base text-muted-foreground">
-            Explore our curated collections of fine jewelry
+            {t.categories.description}
           </p>
         </div>
 

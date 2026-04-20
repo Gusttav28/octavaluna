@@ -1,31 +1,36 @@
+"use client"
+
 import Link from "next/link"
 import { Instagram, Facebook, Twitter } from "lucide-react"
-
-const footerLinks = {
-  shop: [
-    { name: "All Jewelry", href: "/shop" },
-    { name: "Necklaces", href: "/shop/necklaces" },
-    { name: "Rings", href: "/shop/rings" },
-    { name: "Earrings", href: "/shop/earrings" },
-    { name: "Bracelets", href: "/shop/bracelets" },
-  ],
-  company: [
-    { name: "Our Story", href: "/about" },
-    { name: "Craftsmanship", href: "/craftsmanship" },
-    { name: "Sustainability", href: "/sustainability" },
-    { name: "Press", href: "/press" },
-    { name: "Careers", href: "/careers" },
-  ],
-  support: [
-    { name: "Contact Us", href: "/contact" },
-    { name: "FAQs", href: "/faqs" },
-    { name: "Shipping", href: "/shipping" },
-    { name: "Returns", href: "/returns" },
-    { name: "Ring Sizing", href: "/ring-sizing" },
-  ],
-}
+import { useLanguage } from "@/lib/language-context"
 
 export function Footer() {
+  const { t } = useLanguage()
+
+  const footerLinks = {
+    shop: [
+      { name: t.footer.allJewelry, href: "/shop" },
+      { name: t.categories.necklaces, href: "/shop/necklaces" },
+      { name: t.categories.rings, href: "/shop/rings" },
+      { name: t.categories.earrings, href: "/shop/earrings" },
+      { name: t.categories.bracelets, href: "/shop/bracelets" },
+    ],
+    company: [
+      { name: t.footer.ourStory, href: "/about" },
+      { name: t.footer.craftsmanship, href: "/craftsmanship" },
+      { name: t.footer.sustainability, href: "/sustainability" },
+      { name: t.footer.press, href: "/press" },
+      { name: t.footer.careers, href: "/careers" },
+    ],
+    support: [
+      { name: t.footer.contactUs, href: "/contact" },
+      { name: t.footer.faqs, href: "/faqs" },
+      { name: t.footer.shipping, href: "/shipping" },
+      { name: t.footer.returns, href: "/returns" },
+      { name: t.footer.ringSizing, href: "/ring-sizing" },
+    ],
+  }
+
   return (
     <footer className="border-t border-border bg-background">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -37,7 +42,7 @@ export function Footer() {
               <span className="font-serif text-2xl tracking-widest text-foreground">OCTAVA LUNA</span>
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
-              Timeless jewelry crafted with passion. Each piece tells a story of elegance and artistry.
+              {t.footer.tagline}
             </p>
             <div className="mt-6 flex gap-4">
               <Link href="#" className="text-muted-foreground transition-colors hover:text-accent">
@@ -57,7 +62,7 @@ export function Footer() {
 
           {/* Shop */}
           <div>
-            <h3 className="text-xs font-medium uppercase tracking-widest text-foreground">Shop</h3>
+            <h3 className="text-xs font-medium uppercase tracking-widest text-foreground">{t.footer.shop}</h3>
             <div className="mt-2 h-px w-8 bg-accent" />
             <ul className="mt-4 space-y-3">
               {footerLinks.shop.map((link) => (
@@ -72,7 +77,7 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="text-xs font-medium uppercase tracking-widest text-foreground">Company</h3>
+            <h3 className="text-xs font-medium uppercase tracking-widest text-foreground">{t.footer.company}</h3>
             <div className="mt-2 h-px w-8 bg-accent" />
             <ul className="mt-4 space-y-3">
               {footerLinks.company.map((link) => (
@@ -87,7 +92,7 @@ export function Footer() {
 
           {/* Support */}
           <div>
-            <h3 className="text-xs font-medium uppercase tracking-widest text-foreground">Support</h3>
+            <h3 className="text-xs font-medium uppercase tracking-widest text-foreground">{t.footer.support}</h3>
             <div className="mt-2 h-px w-8 bg-accent" />
             <ul className="mt-4 space-y-3">
               {footerLinks.support.map((link) => (
@@ -103,14 +108,14 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">
           <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Octava Luna. All rights reserved.
+            © {new Date().getFullYear()} Octava Luna. {t.footer.rights}
           </p>
           <div className="flex gap-6">
             <Link href="/privacy" className="text-xs text-muted-foreground transition-colors hover:text-accent">
-              Privacy Policy
+              {t.footer.privacy}
             </Link>
             <Link href="/terms" className="text-xs text-muted-foreground transition-colors hover:text-accent">
-              Terms of Service
+              {t.footer.terms}
             </Link>
           </div>
         </div>

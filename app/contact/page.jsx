@@ -9,40 +9,42 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react"
-
-const contactInfo = [
-  {
-    icon: MapPin,
-    title: "Visit Us",
-    details: ["123 Luxury Lane", "Barcelona, Spain 08001"],
-  },
-  {
-    icon: Phone,
-    title: "Call Us",
-    details: ["+34 123 456 789", "+34 987 654 321"],
-  },
-  {
-    icon: Mail,
-    title: "Email Us",
-    details: ["hello@octavaluna.com", "support@octavaluna.com"],
-  },
-  {
-    icon: Clock,
-    title: "Opening Hours",
-    details: ["Mon - Sat: 10:00 - 19:00", "Sunday: By Appointment"],
-  },
-]
-
-const inquiryTypes = [
-  "General Inquiry",
-  "Custom Design Request",
-  "Product Question",
-  "Wholesale Partnership",
-  "Press & Media",
-  "Other",
-]
+import { useLanguage } from "@/lib/language-context"
 
 export default function ContactPage() {
+  const { t } = useLanguage()
+
+  const contactInfo = [
+    {
+      icon: MapPin,
+      title: t.contact.visitUs,
+      details: ["123 Luxury Lane", "Barcelona, Spain 08001"],
+    },
+    {
+      icon: Phone,
+      title: t.contact.callUs,
+      details: ["+34 123 456 789", "+34 987 654 321"],
+    },
+    {
+      icon: Mail,
+      title: t.contact.emailUs,
+      details: ["hello@octavaluna.com", "support@octavaluna.com"],
+    },
+    {
+      icon: Clock,
+      title: t.contact.openingHours,
+      details: [t.contact.monSat, t.contact.sunday],
+    },
+  ]
+
+  const inquiryTypes = [
+    { key: "general", label: t.contact.generalInquiry },
+    { key: "custom", label: t.contact.customDesign },
+    { key: "product", label: t.contact.productQuestion },
+    { key: "wholesale", label: t.contact.wholesale },
+    { key: "press", label: t.contact.pressMedia },
+    { key: "other", label: t.contact.other },
+  ]
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -51,26 +53,25 @@ export default function ContactPage() {
     message: "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission
-    console.log("Form submitted:", formData)
-  }
+  // const handleSubmit = (e: React.FormEvent) => {
+  //   e.preventDefault()
+  //   // Handle form submission
+  //   console.log("Form submitted:", formData)
+  // }
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       {/* Hero */}
       <section className="relative bg-secondary py-20 px-4">
         <div className="mx-auto max-w-7xl text-center">
-          <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">Get In Touch</span>
+          <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.contact.badge}</span>
           <h1 className="mt-4 font-serif text-4xl tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Contact Us
+            {t.contact.title}
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-            We would love to hear from you. Whether you have a question about our collections, 
-            need assistance with an order, or want to discuss a custom design, we are here to help.
+            {t.contact.description}
           </p>
           <div className="mx-auto mt-6 h-0.5 w-16 bg-accent" />
         </div>
@@ -110,24 +111,24 @@ export default function ContactPage() {
             <div>
               <span className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.3em] text-accent">
                 <span className="h-px w-8 bg-accent" />
-                Send a Message
+                {t.contact.sendMessage}
               </span>
               <h2 className="mt-6 font-serif text-3xl tracking-tight text-foreground">
-                We&apos;d Love to Hear From You
+                {t.contact.loveToHear}
               </h2>
               <p className="mt-4 text-muted-foreground">
-                Fill out the form below and our team will get back to you within 24 hours.
+                {t.contact.formDescription}
               </p>
 
-              <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+              <form className="mt-8 space-y-6">
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div className="space-y-2">
                     <label htmlFor="name" className="text-sm font-medium text-foreground">
-                      Full Name
+                      {t.contact.fullName}
                     </label>
                     <Input
                       id="name"
-                      placeholder="Your name"
+                      placeholder={t.contact.yourName}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="border-border focus:border-accent focus:ring-accent"
@@ -135,7 +136,7 @@ export default function ContactPage() {
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="email" className="text-sm font-medium text-foreground">
-                      Email Address
+                      {t.contact.emailAddress}
                     </label>
                     <Input
                       id="email"
@@ -151,7 +152,7 @@ export default function ContactPage() {
                 <div className="grid gap-6 sm:grid-cols-2">
                   <div className="space-y-2">
                     <label htmlFor="phone" className="text-sm font-medium text-foreground">
-                      Phone Number <span className="text-muted-foreground">(Optional)</span>
+                      {t.contact.phoneNumber} <span className="text-muted-foreground">({t.contact.optional})</span>
                     </label>
                     <Input
                       id="phone"
@@ -164,7 +165,7 @@ export default function ContactPage() {
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="inquiry" className="text-sm font-medium text-foreground">
-                      Inquiry Type
+                      {t.contact.inquiryType}
                     </label>
                     <select
                       id="inquiry"
@@ -172,10 +173,10 @@ export default function ContactPage() {
                       onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
                       className="flex h-10 w-full border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
                     >
-                      <option value="">Select an option</option>
+                      <option value="">{t.contact.selectOption}</option>
                       {inquiryTypes.map((type) => (
-                        <option key={type} value={type}>
-                          {type}
+                        <option key={type.key} value={type.key}>
+                          {type.label}
                         </option>
                       ))}
                     </select>
@@ -184,11 +185,11 @@ export default function ContactPage() {
 
                 <div className="space-y-2">
                   <label htmlFor="message" className="text-sm font-medium text-foreground">
-                    Your Message
+                    {t.contact.yourMessage}
                   </label>
                   <Textarea
                     id="message"
-                    placeholder="Tell us how we can help you..."
+                    placeholder={t.contact.messagePlaceholder}
                     rows={6}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -201,7 +202,7 @@ export default function ContactPage() {
                   className="w-full sm:w-auto bg-accent text-accent-foreground hover:bg-accent/90 px-8"
                 >
                   <Send className="h-4 w-4 mr-2" />
-                  Send Message
+                  {t.contact.sendMessageBtn}
                 </Button>
               </form>
             </div>
@@ -223,13 +224,12 @@ export default function ContactPage() {
                   />
                 </div>
                 <div className="mt-6 p-6 bg-accent text-accent-foreground">
-                  <h3 className="font-serif text-xl">Visit Our Boutique</h3>
+                  <h3 className="font-serif text-xl">{t.contact.visitBoutique}</h3>
                   <p className="mt-2 text-accent-foreground/80 text-sm">
-                    Experience our collections in person. Our knowledgeable staff is ready to help 
-                    you find the perfect piece or discuss a custom creation.
+                    {t.contact.boutiqueDescription}
                   </p>
                   <p className="mt-4 text-sm font-medium">
-                    Book a private appointment for a personalized experience.
+                    {t.contact.bookAppointment}
                   </p>
                 </div>
               </div>
@@ -241,23 +241,23 @@ export default function ContactPage() {
       {/* FAQ Teaser */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-secondary">
         <div className="mx-auto max-w-3xl text-center">
-          <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">Common Questions</span>
+          <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.contact.faqBadge}</span>
           <h2 className="mt-4 font-serif text-3xl tracking-tight text-foreground sm:text-4xl">
-            Frequently Asked Questions
+            {t.contact.faqTitle}
           </h2>
           <div className="mt-8 space-y-6 text-left">
             {[
               {
-                q: "Do you offer custom jewelry design?",
-                a: "Yes, we specialize in creating bespoke pieces. Contact us to discuss your vision and we'll work together to bring it to life.",
+                q: t.contact.faq1Q,
+                a: t.contact.faq1A,
               },
               {
-                q: "What is your return policy?",
-                a: "We offer a 30-day return policy for unworn items in their original packaging. Custom pieces are final sale.",
+                q: t.contact.faq2Q,
+                a: t.contact.faq2A,
               },
               {
-                q: "How long does shipping take?",
-                a: "Standard shipping within Spain takes 2-3 business days. International shipping varies by location, typically 5-10 business days.",
+                q: t.contact.faq3Q,
+                a: t.contact.faq3A,
               },
             ].map((faq, index) => (
               <div key={index} className="border-b border-border pb-6">

@@ -1,54 +1,59 @@
+"use client"
+
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ArrowRight, Award, Heart, Gem, Leaf } from "lucide-react"
-
-const values = [
-  {
-    icon: Gem,
-    title: "Exceptional Quality",
-    description: "We source only the finest materials and gemstones, ensuring each piece meets our exacting standards.",
-  },
-  {
-    icon: Heart,
-    title: "Artisan Craftsmanship",
-    description: "Every piece is handcrafted by skilled artisans who have dedicated their lives to the jewelry arts.",
-  },
-  {
-    icon: Award,
-    title: "Timeless Design",
-    description: "Our designs transcend trends, creating pieces that will be treasured for generations.",
-  },
-  {
-    icon: Leaf,
-    title: "Ethical Sourcing",
-    description: "We are committed to responsible practices, using ethically sourced materials and sustainable methods.",
-  },
-]
-
-const milestones = [
-//   { year: "2015", event: "Octava Luna founded in Barcelona" },
-//   { year: "2017", event: "First flagship boutique opens" },
-//   { year: "2019", event: "Launch of the Celestial Collection" },
-  { year: "2021", event: "Octava Luna founded in Costa Rica" },
-  { year: "2023", event: "Introduction of sustainable packaging" },
-  { year: "2024", event: "Opening of artisan workshop experience" },
-]
+import { useLanguage } from "@/lib/language-context"
 
 export default function AboutPage() {
+  const { t } = useLanguage()
+
+  const values = [
+    {
+      icon: Gem,
+      title: t.about.valueQuality,
+      description: t.about.valueQualityDesc,
+    },
+    {
+      icon: Heart,
+      title: t.about.valueCraftsmanship,
+      description: t.about.valueCraftsmanshipDesc,
+    },
+    {
+      icon: Award,
+      title: t.about.valueDesign,
+      description: t.about.valueDesignDesc,
+    },
+    {
+      icon: Leaf,
+      title: t.about.valueEthical,
+      description: t.about.valueEthicalDesc,
+    },
+  ]
+
+  const milestones = [
+    { year: "2015", event: t.about.milestone2015 },
+    { year: "2017", event: t.about.milestone2017 },
+    { year: "2019", event: t.about.milestone2019 },
+    { year: "2021", event: t.about.milestone2021 },
+    { year: "2023", event: t.about.milestone2023 },
+    { year: "2024", event: t.about.milestone2024 },
+  ]
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       {/* Hero */}
       <section className="relative bg-secondary py-20 px-4">
         <div className="mx-auto max-w-7xl text-center">
-          <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">Our Story</span>
+          <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.about.badge}</span>
           <h1 className="mt-4 font-serif text-4xl tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            About Octava Luna
+            {t.about.title}
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-            Where tradition meets contemporary elegance
+            {t.about.subtitle}
           </p>
           <div className="mx-auto mt-6 h-0.5 w-16 bg-accent" />
         </div>
@@ -61,26 +66,20 @@ export default function AboutPage() {
             <div>
               <span className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.3em] text-accent">
                 <span className="h-px w-8 bg-accent" />
-                The Beginning
+                {t.about.beginningBadge}
               </span>
               <h2 className="mt-6 font-serif text-3xl tracking-tight text-foreground sm:text-4xl">
-                Born from a Passion for Beauty
+                {t.about.beginningTitle}
               </h2>
               <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  Octava Luna was born in 2015 from a simple yet profound belief: that jewelry should be more 
-                  than mere adornment. It should be a reflection of the wearer&apos;s inner light, a celebration 
-                  of life&apos;s precious moments.
+                  {t.about.beginningP1}
                 </p>
                 <p>
-                  Our founder, Elena Vidal, grew up watching her grandmother craft jewelry in a small 
-                  Barcelona workshop. Those early memories of gold catching the Mediterranean light, 
-                  of delicate hands shaping metal into art, planted the seed for what would become 
-                  Octava Luna.
+                  {t.about.beginningP2}
                 </p>
                 <p>
-                  The name itself honors the eighth moon—a symbol of new beginnings and infinite 
-                  possibilities. Each piece we create carries this spirit of renewal and hope.
+                  {t.about.beginningP3}
                 </p>
               </div>
             </div>
@@ -92,7 +91,7 @@ export default function AboutPage() {
                   className="h-full w-full object-cover"
                 />
               </div>
-              <div className="absolute -bottom-6 -left-6 h-24 w-24 bg-accent/10" />
+              <div className="absolute -bottom-6 -left-6 h-24 w-24 border border-accent" />
               <div className="absolute -top-6 -right-6 h-24 w-24 bg-accent/10" />
             </div>
           </div>
@@ -103,12 +102,12 @@ export default function AboutPage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-secondary">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16">
-            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">What We Stand For</span>
+            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.about.valuesBadge}</span>
             <h2 className="mt-4 font-serif text-3xl tracking-tight text-foreground sm:text-4xl">
-              Our Values
+              {t.about.valuesTitle}
             </h2>
           </div>
-          
+
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((value) => (
               <div key={value.title} className="text-center group">
@@ -127,21 +126,20 @@ export default function AboutPage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
           <div className="text-center mb-16">
-            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">Our Journey</span>
+            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.about.journeyBadge}</span>
             <h2 className="mt-4 font-serif text-3xl tracking-tight text-foreground sm:text-4xl">
-              Milestones
+              {t.about.journeyTitle}
             </h2>
           </div>
-          
+
           <div className="relative">
             <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border -translate-x-1/2" />
             <div className="space-y-12">
               {milestones.map((milestone, index) => (
                 <div
                   key={milestone.year}
-                  className={`relative flex items-center gap-8 ${
-                    index % 2 === 0 ? "flex-row" : "flex-row-reverse"
-                  }`}
+                  className={`relative flex items-center gap-8 ${index % 2 === 0 ? "flex-row" : "flex-row-reverse"
+                    }`}
                 >
                   <div className={`flex-1 ${index % 2 === 0 ? "text-right" : "text-left"}`}>
                     <span className="font-serif text-2xl text-accent">{milestone.year}</span>
@@ -162,18 +160,16 @@ export default function AboutPage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-accent">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="font-serif text-3xl tracking-tight text-accent-foreground sm:text-4xl">
-            Meet Our Artisans
+            {t.about.teamTitle}
           </h2>
           <p className="mt-4 text-lg text-accent-foreground/80">
-            Behind every piece is a team of passionate craftspeople who pour their hearts into their work. 
-            Our artisans combine generations of expertise with innovative techniques to create jewelry 
-            that stands the test of time.
+            {t.about.teamDescription}
           </p>
           <Link
             href="/contact"
             className="mt-8 inline-flex items-center gap-2 bg-background text-foreground px-8 py-3 text-sm font-medium uppercase tracking-wider hover:bg-foreground hover:text-background transition-colors"
           >
-            Visit Our Workshop
+            {t.about.visitWorkshop}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

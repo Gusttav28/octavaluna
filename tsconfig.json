@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,7 +23,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
   "include": [
@@ -28,7 +34,24 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "components/brand-story.jsx",
+    "app/contact/page.jsx",
+    "app/collections/page.jsx",
+    "app/account/page.jsx",
+    "app/account/loading.jsx",
+    "app/about/page.jsx",
+    "components/testimonials.jsx",
+    "components/product-grid.jsx",
+    "components/newsletter.jsx",
+    "components/hero-section.jsx",
+    "components/header.jsx",
+    "components/footer.jsx",
+    "components/featured-categories.jsx",
+    "app/page.jsx",
+    "app/layout.jsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

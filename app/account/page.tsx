@@ -8,10 +8,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import Loading from "./loading"
+import { useLanguage } from "@/lib/language-context"
 
 export default function AccountPage() {
   const searchParams = useSearchParams()
+  const { t } = useLanguage()
   const [activeTab, setActiveTab] = useState<"login" | "register">("login")
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -35,10 +36,10 @@ export default function AccountPage() {
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-accent transition-colors mb-6"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to Home
+            {t.account.backToHome}
           </Link>
           <h1 className="font-serif text-4xl md:text-5xl text-foreground">
-            {activeTab === "login" ? "Welcome Back" : "Join Octava Luna"}
+            {activeTab === "login" ? t.account.welcomeBack : t.account.joinUs}
           </h1>
           <div className="h-0.5 w-16 bg-accent mt-4" />
         </div>
@@ -51,23 +52,21 @@ export default function AccountPage() {
           <div className="flex mb-10 border border-muted rounded-sm overflow-hidden">
             <button
               onClick={() => setActiveTab("login")}
-              className={`flex-1 py-3 text-sm font-medium uppercase tracking-widest transition-colors ${
-                activeTab === "login"
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-background text-foreground hover:bg-secondary/50"
-              }`}
+              className={`flex-1 py-3 text-sm font-medium uppercase tracking-widest transition-colors ${activeTab === "login"
+                ? "bg-accent text-accent-foreground"
+                : "bg-background text-foreground hover:bg-secondary/50"
+                }`}
             >
-              Sign In
+              {t.account.signIn}
             </button>
             <button
               onClick={() => setActiveTab("register")}
-              className={`flex-1 py-3 text-sm font-medium uppercase tracking-widest transition-colors ${
-                activeTab === "register"
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-background text-foreground hover:bg-secondary/50"
-              }`}
+              className={`flex-1 py-3 text-sm font-medium uppercase tracking-widest transition-colors ${activeTab === "register"
+                ? "bg-accent text-accent-foreground"
+                : "bg-background text-foreground hover:bg-secondary/50"
+                }`}
             >
-              Register
+              {t.account.register}
             </button>
           </div>
 
@@ -76,14 +75,14 @@ export default function AccountPage() {
             <form className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="login-email" className="text-foreground">
-                  Email Address
+                  {t.account.emailAddress}
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="login-email"
                     type="email"
-                    placeholder="your@email.com"
+                    placeholder={t.account.emailPlaceholder}
                     className="pl-10 bg-background border-muted focus:border-accent"
                   />
                 </div>
@@ -91,14 +90,14 @@ export default function AccountPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="login-password" className="text-foreground">
-                  Password
+                  {t.account.password}
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="login-password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
+                    placeholder={t.account.enterPassword}
                     className="pl-10 pr-10 bg-background border-muted focus:border-accent"
                   />
                   <button
@@ -115,16 +114,16 @@ export default function AccountPage() {
                 <div className="flex items-center gap-2">
                   <Checkbox id="remember" className="border-muted data-[state=checked]:bg-accent" />
                   <Label htmlFor="remember" className="text-sm text-muted-foreground cursor-pointer">
-                    Remember me
+                    {t.account.rememberMe}
                   </Label>
                 </div>
                 <Link href="/account/forgot-password" className="text-sm text-accent hover:underline">
-                  Forgot password?
+                  {t.account.forgotPassword}
                 </Link>
               </div>
 
               <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 uppercase tracking-widest">
-                Sign In
+                {t.account.signIn}
               </Button>
 
               <div className="relative">
@@ -132,7 +131,7 @@ export default function AccountPage() {
                   <div className="w-full border-t border-muted" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-4 text-muted-foreground tracking-widest">Or continue with</span>
+                  <span className="bg-background px-4 text-muted-foreground tracking-widest">{t.account.orContinueWith}</span>
                 </div>
               </div>
 
@@ -153,26 +152,26 @@ export default function AccountPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="first-name" className="text-foreground">
-                    First Name
+                    {t.account.firstName}
                   </Label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="first-name"
                       type="text"
-                      placeholder="First"
+                      placeholder={t.account.firstName}
                       className="pl-10 bg-background border-muted focus:border-accent"
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="last-name" className="text-foreground">
-                    Last Name
+                    {t.account.lastName}
                   </Label>
                   <Input
                     id="last-name"
                     type="text"
-                    placeholder="Last"
+                    placeholder={t.account.lastName}
                     className="bg-background border-muted focus:border-accent"
                   />
                 </div>
@@ -180,14 +179,14 @@ export default function AccountPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="register-email" className="text-foreground">
-                  Email Address
+                  {t.account.emailAddress}
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="register-email"
                     type="email"
-                    placeholder="your@email.com"
+                    placeholder={t.account.emailPlaceholder}
                     className="pl-10 bg-background border-muted focus:border-accent"
                   />
                 </div>
@@ -195,7 +194,7 @@ export default function AccountPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="phone" className="text-foreground">
-                  Phone Number <span className="text-muted-foreground">(Optional)</span>
+                  {t.account.phoneNumber} <span className="text-muted-foreground">({t.account.optional})</span>
                 </Label>
                 <div className="relative">
                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -210,14 +209,14 @@ export default function AccountPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="register-password" className="text-foreground">
-                  Password
+                  {t.account.password}
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="register-password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Create a password"
+                    placeholder={t.account.createPassword}
                     className="pl-10 pr-10 bg-background border-muted focus:border-accent"
                   />
                   <button
@@ -228,19 +227,19 @@ export default function AccountPage() {
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
-                <p className="text-xs text-muted-foreground">Must be at least 8 characters</p>
+                <p className="text-xs text-muted-foreground">{t.account.passwordRequirement}</p>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="confirm-password" className="text-foreground">
-                  Confirm Password
+                  {t.account.confirmPassword}
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="confirm-password"
                     type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm your password"
+                    placeholder={t.account.confirmYourPassword}
                     className="pl-10 pr-10 bg-background border-muted focus:border-accent"
                   />
                   <button
@@ -257,26 +256,26 @@ export default function AccountPage() {
                 <div className="flex items-start gap-2">
                   <Checkbox id="terms" className="border-muted data-[state=checked]:bg-accent mt-0.5" />
                   <Label htmlFor="terms" className="text-sm text-muted-foreground cursor-pointer leading-relaxed">
-                    I agree to the{" "}
+                    {t.account.agreeToTerms}{" "}
                     <Link href="/terms" className="text-accent hover:underline">
-                      Terms of Service
+                      {t.account.termsOfService}
                     </Link>{" "}
-                    and{" "}
+                    {t.account.and}{" "}
                     <Link href="/privacy" className="text-accent hover:underline">
-                      Privacy Policy
+                      {t.account.privacyPolicy}
                     </Link>
                   </Label>
                 </div>
                 <div className="flex items-start gap-2">
                   <Checkbox id="newsletter" className="border-muted data-[state=checked]:bg-accent mt-0.5" />
                   <Label htmlFor="newsletter" className="text-sm text-muted-foreground cursor-pointer leading-relaxed">
-                    Subscribe to our newsletter for exclusive offers and new arrivals
+                    {t.account.subscribeNewsletter}
                   </Label>
                 </div>
               </div>
 
               <Button className="w-full bg-accent text-accent-foreground hover:bg-accent/90 uppercase tracking-widest">
-                Create Account
+                {t.account.createAccount}
               </Button>
 
               <div className="relative">
@@ -284,7 +283,7 @@ export default function AccountPage() {
                   <div className="w-full border-t border-muted" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-4 text-muted-foreground tracking-widest">Or sign up with</span>
+                  <span className="bg-background px-4 text-muted-foreground tracking-widest">{t.account.orSignUpWith}</span>
                 </div>
               </div>
 
@@ -301,27 +300,27 @@ export default function AccountPage() {
 
           {/* Benefits */}
           <div className="mt-12 pt-8 border-t border-muted">
-            <h3 className="font-serif text-lg text-foreground mb-4">Member Benefits</h3>
+            <h3 className="font-serif text-lg text-foreground mb-4">{t.account.memberBenefits}</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="flex items-center gap-3">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                Early access to new collections
+                {t.account.benefit1}
               </li>
               <li className="flex items-center gap-3">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                Exclusive member-only discounts
+                {t.account.benefit2}
               </li>
               <li className="flex items-center gap-3">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                Order tracking and history
+                {t.account.benefit3}
               </li>
               <li className="flex items-center gap-3">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                Save items to your wishlist
+                {t.account.benefit4}
               </li>
               <li className="flex items-center gap-3">
                 <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                Birthday surprises and rewards
+                {t.account.benefit5}
               </li>
             </ul>
           </div>

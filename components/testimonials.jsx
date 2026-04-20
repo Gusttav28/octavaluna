@@ -1,4 +1,7 @@
+"use client"
+
 import { Quote } from "lucide-react"
+import { useLanguage } from "@/lib/language-context"
 
 const testimonials = [
   {
@@ -19,16 +22,18 @@ const testimonials = [
 ]
 
 export function Testimonials() {
+  const { t } = useLanguage()
+
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 bg-secondary">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="h-px w-12 bg-accent" />
-            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">Testimonials</span>
+            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.testimonials.badge}</span>
             <div className="h-px w-12 bg-accent" />
           </div>
-          <h2 className="font-serif text-3xl tracking-tight text-foreground sm:text-4xl">What Our Clients Say</h2>
+          <h2 className="font-serif text-3xl tracking-tight text-foreground sm:text-4xl">{t.testimonials.title}</h2>
         </div>
 
         <div className="mt-16 grid gap-8 md:grid-cols-3">

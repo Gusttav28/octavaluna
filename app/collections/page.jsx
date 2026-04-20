@@ -1,65 +1,70 @@
+"use client"
+
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ArrowRight } from "lucide-react"
-
-const collections = [
-  {
-    id: 1,
-    name: "Celestial",
-    description: "Inspired by the moon, stars, and cosmic wonders. Each piece captures the ethereal beauty of the night sky.",
-    pieces: 12,
-    image: "/crescent-moon-gold-necklace-luxury-jewelry.jpg",
-    href: "/collections/celestial",
-  },
-  {
-    id: 2,
-    name: "Eternal",
-    description: "Timeless designs that transcend trends. Classic elegance meets modern craftsmanship.",
-    pieces: 18,
-    image: "/gold-band-ring-with-small-diamonds-luxury.jpg",
-    href: "/collections/eternal",
-  },
-  {
-    id: 3,
-    name: "Pearl Essence",
-    description: "The lustrous beauty of freshwater pearls paired with 18k gold. Pure sophistication.",
-    pieces: 8,
-    image: "/pearl-pendant-gold-necklace-luxury-elegant.jpg",
-    href: "/collections/pearl-essence",
-  },
-  {
-    id: 4,
-    name: "Minimalist",
-    description: "Less is more. Clean lines and understated elegance for the modern woman.",
-    pieces: 15,
-    image: "/gold-signet-ring-minimalist-luxury.jpg",
-    href: "/collections/minimalist",
-  },
-]
-
-const featuredCollection = {
-  name: "The Luna Collection",
-  tagline: "New Arrival",
-  description: "Our newest collection draws inspiration from the phases of the moon, celebrating the cycles of feminine power and transformation. Each piece is meticulously crafted to capture the mystical allure of moonlight.",
-  image: "/elegant-gold-jewelry-necklace-on-cream-silk-fabric.jpg",
-  href: "/collections/luna",
-}
+import { useLanguage } from "@/lib/language-context"
 
 export default function CollectionsPage() {
+  const { t } = useLanguage()
+
+  const collections = [
+    {
+      id: 1,
+      name: t.collections.celestial,
+      description: t.collections.celestialDesc,
+      pieces: 12,
+      image: "/crescent-moon-gold-necklace-luxury-jewelry.jpg",
+      href: "/collections/celestial",
+    },
+    {
+      id: 2,
+      name: t.collections.eternal,
+      description: t.collections.eternalDesc,
+      pieces: 18,
+      image: "/gold-band-ring-with-small-diamonds-luxury.jpg",
+      href: "/collections/eternal",
+    },
+    {
+      id: 3,
+      name: t.collections.pearlEssence,
+      description: t.collections.pearlEssenceDesc,
+      pieces: 8,
+      image: "/pearl-pendant-gold-necklace-luxury-elegant.jpg",
+      href: "/collections/pearl-essence",
+    },
+    {
+      id: 4,
+      name: t.collections.minimalist,
+      description: t.collections.minimalistDesc,
+      pieces: 15,
+      image: "/gold-signet-ring-minimalist-luxury.jpg",
+      href: "/collections/minimalist",
+    },
+  ]
+
+  const featuredCollection = {
+    name: t.collections.lunaCollection,
+    tagline: t.collections.newArrival,
+    description: t.collections.lunaCollectionDesc,
+    image: "/elegant-gold-jewelry-necklace-on-cream-silk-fabric.jpg",
+    href: "/collections/luna",
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       {/* Hero */}
       <section className="relative bg-secondary py-20 px-4">
         <div className="mx-auto max-w-7xl text-center">
-          <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">Curated</span>
+          <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.collections.badge}</span>
           <h1 className="mt-4 font-serif text-4xl tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Our Collections
+            {t.collections.title}
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-            Each collection tells a unique story, crafted with intention and artistry.
+            {t.collections.description}
           </p>
           <div className="mx-auto mt-6 h-0.5 w-16 bg-accent" />
         </div>
@@ -93,7 +98,7 @@ export default function CollectionsPage() {
                 className="mt-8 inline-flex items-center gap-3 group"
               >
                 <span className="text-sm font-medium uppercase tracking-widest text-foreground group-hover:text-accent transition-colors border-b border-foreground pb-1 group-hover:border-accent">
-                  Explore Collection
+                  {t.collections.exploreCollection}
                 </span>
                 <ArrowRight className="h-4 w-4 text-accent transition-transform group-hover:translate-x-1" />
               </Link>
@@ -106,12 +111,12 @@ export default function CollectionsPage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-secondary">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16">
-            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">Browse</span>
+            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.collections.browse}</span>
             <h2 className="mt-4 font-serif text-3xl tracking-tight text-foreground sm:text-4xl">
-              All Collections
+              {t.collections.allCollections}
             </h2>
           </div>
-          
+
           <div className="grid gap-8 sm:grid-cols-2">
             {collections.map((collection) => (
               <Link
@@ -129,7 +134,7 @@ export default function CollectionsPage() {
                   </div>
                   <div className="flex flex-col justify-center p-8">
                     <span className="text-xs font-medium uppercase tracking-wider text-accent">
-                      {collection.pieces} Pieces
+                      {collection.pieces} {t.collections.pieces}
                     </span>
                     <h3 className="mt-2 font-serif text-2xl text-foreground group-hover:text-accent transition-colors">
                       {collection.name}
@@ -138,7 +143,7 @@ export default function CollectionsPage() {
                       {collection.description}
                     </p>
                     <div className="mt-6 flex items-center gap-2 text-sm font-medium uppercase tracking-wider text-foreground group-hover:text-accent transition-colors">
-                      <span>View Collection</span>
+                      <span>{t.collections.viewCollection}</span>
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </div>
                   </div>
@@ -154,17 +159,16 @@ export default function CollectionsPage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-accent">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="font-serif text-3xl tracking-tight text-accent-foreground sm:text-4xl">
-            Can&apos;t Find What You&apos;re Looking For?
+            {t.collections.ctaTitle}
           </h2>
           <p className="mt-4 text-accent-foreground/80">
-            Our artisans can create bespoke pieces tailored to your vision. 
-            From engagement rings to heirloom pieces, we bring your dreams to life.
+            {t.collections.ctaDescription}
           </p>
           <Link
             href="/contact"
             className="mt-8 inline-flex items-center gap-2 bg-background text-foreground px-8 py-3 text-sm font-medium uppercase tracking-wider hover:bg-foreground hover:text-background transition-colors"
           >
-            Request Custom Design
+            {t.collections.requestCustom}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

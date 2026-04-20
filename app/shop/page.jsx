@@ -1,10 +1,11 @@
+"use client"
+
 import Link from "next/link"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Filter, SlidersHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const categories = ["All", "Necklaces", "Rings", "Earrings", "Bracelets"]
+import { useLanguage } from "@/lib/language-context"
 
 const products = [
   {
@@ -82,19 +83,29 @@ const products = [
 ]
 
 export default function ShopPage() {
+  const { t } = useLanguage()
+
+  const categories = [
+    { key: "all", label: t.shop.all },
+    { key: "necklaces", label: t.shop.necklaces },
+    { key: "rings", label: t.shop.rings },
+    { key: "earrings", label: t.shop.earrings },
+    { key: "bracelets", label: t.shop.bracelets },
+  ]
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
+
       {/* Hero Banner */}
       <section className="relative bg-secondary py-20 px-4">
         <div className="mx-auto max-w-7xl text-center">
-          <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">Explore</span>
+          <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.shop.badge}</span>
           <h1 className="mt-4 font-serif text-4xl tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Our Collection
+            {t.shop.title}
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
-            Discover timeless pieces crafted with precision and passion. Each jewel tells a story of elegance and artistry.
+            {t.shop.description}
           </p>
           <div className="mx-auto mt-6 h-0.5 w-16 bg-accent" />
         </div>
@@ -105,29 +116,28 @@ export default function ShopPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center gap-6">
-              <span className="text-sm font-medium text-muted-foreground">Filter by:</span>
+              <span className="text-sm font-medium text-muted-foreground">{t.shop.filterBy}</span>
               <div className="hidden sm:flex items-center gap-2">
                 {categories.map((category, index) => (
                   <button
-                    key={category}
-                    className={`px-4 py-2 text-sm font-medium uppercase tracking-wider transition-colors ${
-                      index === 0
+                    key={category.key}
+                    className={`px-4 py-2 text-sm font-medium uppercase tracking-wider transition-colors ${index === 0
                         ? "bg-accent text-accent-foreground"
                         : "text-foreground hover:text-accent"
-                    }`}
+                      }`}
                   >
-                    {category}
+                    {category.label}
                   </button>
                 ))}
               </div>
               <Button variant="outline" size="sm" className="sm:hidden bg-transparent">
                 <Filter className="h-4 w-4 mr-2" />
-                Filter
+                {t.shop.filter}
               </Button>
             </div>
             <Button variant="ghost" size="sm" className="text-muted-foreground">
               <SlidersHorizontal className="h-4 w-4 mr-2" />
-              Sort
+              {t.shop.sort}
             </Button>
           </div>
         </div>
@@ -163,7 +173,7 @@ export default function ShopPage() {
           {/* Load More */}
           <div className="mt-16 text-center">
             <Button variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground px-8 bg-transparent">
-              Load More
+              {t.shop.loadMore}
             </Button>
           </div>
         </div>

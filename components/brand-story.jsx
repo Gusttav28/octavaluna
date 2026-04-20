@@ -1,7 +1,12 @@
+"use client"
+
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
+import { useLanguage } from "@/lib/language-context"
 
 export function BrandStory() {
+  const { t } = useLanguage()
+
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -21,25 +26,22 @@ export function BrandStory() {
           <div className="flex flex-col justify-center">
             <div className="flex items-center gap-3">
               <div className="h-px w-8 bg-accent" />
-              <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">Our Story</span>
+              <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.brandStory.badge}</span>
             </div>
             <h2 className="mt-6 font-serif text-3xl tracking-tight text-foreground sm:text-4xl md:text-5xl text-balance">
-              Crafted with passion, worn with pride
+              {t.brandStory.title}
             </h2>
             <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-              Every piece in our collection is meticulously handcrafted by skilled artisans who share our passion for
-              timeless beauty. We source only the finest materials—ethically mined gemstones and recycled precious
-              metals—to create jewelry that not only adorns but tells a story.
+              {t.brandStory.paragraph1}
             </p>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              Founded with a vision to blend traditional craftsmanship with contemporary design, Octava Luna celebrates
-              the art of fine jewelry making while honoring the planet we all share.
+              {t.brandStory.paragraph2}
             </p>
             <Link
               href="/about"
               className="group mt-8 inline-flex items-center gap-3 bg-accent text-accent-foreground px-6 py-3 text-sm font-medium uppercase tracking-widest transition-all hover:bg-accent/90 self-start"
             >
-              <span>Learn More</span>
+              <span>{t.brandStory.learnMore}</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>

@@ -1,5 +1,8 @@
+"use client"
+
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import { useLanguage } from "@/lib/language-context"
 
 const products = [
   {
@@ -47,21 +50,23 @@ const products = [
 ]
 
 export function ProductGrid() {
+  const { t } = useLanguage()
+
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 bg-secondary">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <div>
-            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">Bestsellers</span>
-            <h2 className="mt-2 font-serif text-3xl tracking-tight text-foreground sm:text-4xl">Featured Pieces</h2>
-            <p className="mt-2 text-muted-foreground">Our most coveted designs</p>
+            <span className="text-xs font-medium uppercase tracking-[0.3em] text-accent">{t.products.badge}</span>
+            <h2 className="mt-2 font-serif text-3xl tracking-tight text-foreground sm:text-4xl">{t.products.title}</h2>
+            <p className="mt-2 text-muted-foreground">{t.products.description}</p>
           </div>
           <Link
             href="/shop"
             className="group inline-flex items-center gap-2 text-sm font-medium uppercase tracking-widest text-foreground transition-colors hover:text-accent"
           >
             <span className="border-b border-foreground pb-1 transition-colors group-hover:border-accent">
-              View All
+              {t.products.viewAll}
             </span>
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
