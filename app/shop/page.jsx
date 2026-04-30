@@ -1,97 +1,65 @@
 "use client"
 
 import Link from "next/link"
+import { useEffect, useMemo, useState } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Filter, SlidersHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/lib/language-context"
-
-const products = [
-  {
-    id: 1,
-    name: "Luna Crescent Necklace",
-    price: 385,
-    category: "Necklaces",
-    image: "/crescent-moon-gold-necklace-luxury-jewelry.jpg",
-    href: "/product/luna-crescent-necklace",
-  },
-  {
-    id: 2,
-    name: "Celestial Band Ring",
-    price: 225,
-    category: "Rings",
-    image: "/gold-band-ring-with-small-diamonds-luxury.jpg",
-    href: "/product/celestial-band-ring",
-  },
-  {
-    id: 3,
-    name: "Aurora Drop Earrings",
-    price: 295,
-    category: "Earrings",
-    image: "/gold-drop-earrings-elegant-luxury.jpg",
-    href: "/product/aurora-drop-earrings",
-  },
-  {
-    id: 4,
-    name: "Solstice Pearl Pendant",
-    price: 445,
-    category: "Necklaces",
-    image: "/pearl-pendant-gold-necklace-luxury-elegant.jpg",
-    href: "/product/solstice-pearl-pendant",
-  },
-  {
-    id: 5,
-    name: "Starlight Hoops",
-    price: 265,
-    category: "Earrings",
-    image: "/gold-hoop-earrings-classic-luxury.jpg",
-    href: "/product/starlight-hoops",
-  },
-  {
-    id: 6,
-    name: "Eclipse Signet Ring",
-    price: 320,
-    category: "Rings",
-    image: "/gold-signet-ring-minimalist-luxury.jpg",
-    href: "/product/eclipse-signet-ring",
-  },
-  {
-    id: 7,
-    name: "Moonstone Pendant",
-    price: 425,
-    category: "Necklaces",
-    image: "/gold-necklace-pendant-luxury-jewelry-on-cream-back.jpg",
-    href: "/product/moonstone-pendant",
-  },
-  {
-    id: 8,
-    name: "Diamond Eternity Ring",
-    price: 595,
-    category: "Rings",
-    image: "/gold-diamond-ring-luxury-jewelry-on-cream-backgrou.jpg",
-    href: "/product/diamond-eternity-ring",
-  },
-  {
-    id: 9,
-    name: "Cascade Drop Earrings",
-    price: 345,
-    category: "Earrings",
-    image: "/gold-earrings-drop-luxury-jewelry-on-cream-backgro.jpg",
-    href: "/product/cascade-drop-earrings",
-  },
-]
+import { useProducts } from "@/lib/use-products"
+import { getDiscountedPrice } from "@/lib/products"
 
 export default function ShopPage() {
   const { t } = useLanguage()
+  const { products } = useProducts()
+  const [activeFilter, setActiveFilter] = useState("all")
 
-  const categories = [
-    { key: "all", label: t.shop.all },
-    { key: "necklaces", label: t.shop.necklaces },
-    { key: "rings", label: t.shop.rings },
-    { key: "earrings", label: t.shop.earrings },
-    { key: "bracelets", label: t.shop.bracelets },
-  ]
+  const categoryFilterButtons = useMemo(() => {
+    const translated = {
+      necklaces: t.shop.necklaces,
+      rings: t.shop.rings,
+      earrings: t.shop.earrings,
+      bracelets: t.shop.bracelets,
+    }
+    const fromProducts = new Map()
+    for (const product of products) {
+      const raw = String(product.category || "").trim()
+      if (!raw) continue
+      const key = raw.toLowerCase()
+      if (!fromProducts.has(key)) fromProducts.set(key, raw)
+    }
+    const sorted = Array.from(fromProducts.entries()).sort((a, b) => a[1].localeCompare(b[1]))
+    const dynamic = sorted.map(([key, display]) => ({
+      key,
+      label: translated[key] || display,
+    }))
+    return [
+      { key: "all", label: t.shop.all },
+      { key: "discounted", label: "Discounted" },
+      ...dynamic,
+    ]
+  }, [products, t])
+
+  useEffect(() => {
+    const keys = new Set(categoryFilterButtons.map((c) => c.key))
+    if (!keys.has(activeFilter)) setActiveFilter("all")
+  }, [categoryFilterButtons, activeFilter])
+
+  const filteredProducts = useMemo(() => {
+    const sortedProducts = [...products].sort((a, b) => {
+      const discountA = Number(a.discountPercent) > 0 ? 1 : 0
+      const discountB = Number(b.discountPercent) > 0 ? 1 : 0
+      return discountB - discountA
+    })
+
+    if (activeFilter === "all") return sortedProducts
+    if (activeFilter === "discounted") return sortedProducts.filter((product) => Number(product.discountPercent) > 0)
+
+    return sortedProducts.filter(
+      (product) => String(product.category || "").toLowerCase() === activeFilter.toLowerCase(),
+    )
+  }, [products, activeFilter])
 
   return (
     <div className="min-h-screen bg-background">
@@ -118,12 +86,11 @@ export default function ShopPage() {
             <div className="flex items-center gap-6">
               <span className="text-sm font-medium text-muted-foreground">{t.shop.filterBy}</span>
               <div className="hidden sm:flex items-center gap-2">
-                {categories.map((category, index) => (
+                {categoryFilterButtons.map((category) => (
                   <button
                     key={category.key}
-                    className={`px-4 py-2 text-sm font-medium uppercase tracking-wider transition-colors ${index === 0
-                        ? "bg-accent text-accent-foreground"
-                        : "text-foreground hover:text-accent"
+                    onClick={() => setActiveFilter(category.key)}
+                    className={`px-4 py-2 text-sm font-medium uppercase tracking-wider transition-colors ${activeFilter === category.key ? "bg-accent text-accent-foreground" : "text-foreground hover:text-accent"
                       }`}
                   >
                     {category.label}
@@ -147,7 +114,13 @@ export default function ShopPage() {
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => (
+            {filteredProducts.map((product) => {
+              const hasDiscount = Number(product.discountPercent) > 0
+              const discountedPrice = getDiscountedPrice(product.price, product.discountPercent)
+              const inventory = Math.max(0, Number(product.inventory || 0))
+              const isOutOfStock = inventory === 0
+
+              return (
               <Link key={product.id} href={product.href} className="group">
                 <div className="relative aspect-[4/5] overflow-hidden bg-card">
                   <img
@@ -159,15 +132,34 @@ export default function ShopPage() {
                   <span className="absolute top-4 left-4 bg-background/90 px-3 py-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                     {product.category}
                   </span>
+                  {hasDiscount ? (
+                    <span className="absolute top-4 right-4 bg-accent px-3 py-1 text-xs font-medium uppercase tracking-wider text-accent-foreground">
+                      -{Number(product.discountPercent)}%
+                    </span>
+                  ) : null}
+                  {isOutOfStock ? (
+                    <span className="absolute bottom-4 left-4 bg-foreground px-3 py-1 text-xs font-medium uppercase tracking-wider text-background">
+                      Sold out
+                    </span>
+                  ) : null}
                 </div>
                 <div className="mt-4 space-y-1">
                   <h3 className="font-serif text-lg text-foreground group-hover:text-accent transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-sm text-muted-foreground">${product.price.toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{product.description}</p>
+                  {hasDiscount ? (
+                    <p className="text-sm text-muted-foreground">
+                      <span className="text-accent font-medium">${discountedPrice.toLocaleString()}</span>{" "}
+                      <span className="line-through">${Number(product.price).toLocaleString()}</span>
+                    </p>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">${Number(product.price).toLocaleString()}</p>
+                  )}
                 </div>
               </Link>
-            ))}
+              )
+            })}
           </div>
 
           {/* Load More */}

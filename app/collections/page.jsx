@@ -5,52 +5,11 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ArrowRight } from "lucide-react"
 import { useLanguage } from "@/lib/language-context"
+import { useCollections } from "@/lib/use-collections"
 
 export default function CollectionsPage() {
   const { t } = useLanguage()
-
-  const collections = [
-    {
-      id: 1,
-      name: t.collections.celestial,
-      description: t.collections.celestialDesc,
-      pieces: 12,
-      image: "/crescent-moon-gold-necklace-luxury-jewelry.jpg",
-      href: "/collections/celestial",
-    },
-    {
-      id: 2,
-      name: t.collections.eternal,
-      description: t.collections.eternalDesc,
-      pieces: 18,
-      image: "/gold-band-ring-with-small-diamonds-luxury.jpg",
-      href: "/collections/eternal",
-    },
-    {
-      id: 3,
-      name: t.collections.pearlEssence,
-      description: t.collections.pearlEssenceDesc,
-      pieces: 8,
-      image: "/pearl-pendant-gold-necklace-luxury-elegant.jpg",
-      href: "/collections/pearl-essence",
-    },
-    {
-      id: 4,
-      name: t.collections.minimalist,
-      description: t.collections.minimalistDesc,
-      pieces: 15,
-      image: "/gold-signet-ring-minimalist-luxury.jpg",
-      href: "/collections/minimalist",
-    },
-  ]
-
-  const featuredCollection = {
-    name: t.collections.lunaCollection,
-    tagline: t.collections.newArrival,
-    description: t.collections.lunaCollectionDesc,
-    image: "/elegant-gold-jewelry-necklace-on-cream-silk-fabric.jpg",
-    href: "/collections/luna",
-  }
+  const { collections, featuredCollection } = useCollections()
 
   return (
     <div className="min-h-screen bg-background">

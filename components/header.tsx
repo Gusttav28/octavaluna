@@ -31,6 +31,7 @@ export function Header() {
     { name: t.nav.collections, href: "/collections" },
     { name: t.nav.about, href: "/about" },
     { name: t.nav.contact, href: "/contact" },
+    { name: "Admin", href: "/admin" },
   ]
 
   return (

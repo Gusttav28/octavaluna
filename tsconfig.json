@@ -50,7 +50,7 @@
     "components/featured-categories.jsx",
     "app/page.jsx",
     "app/layout.jsx"
-  ],
+, "app/shop/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]
