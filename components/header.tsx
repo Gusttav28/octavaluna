@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { ShoppingBag, Search, Menu, User, LogIn, UserPlus, Heart, Globe } from "lucide-react"
+import { DollarSign, ShoppingBag, Search, Menu, User, LogIn, UserPlus, Heart, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useLanguage } from "@/lib/language-context"
+import { useSite } from "@/lib/site-context"
 import type { Language } from "@/lib/translations"
 
 
@@ -25,13 +26,14 @@ const languages = [
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const { language, setLanguage, t } = useLanguage()
+  const { currency, toggleCurrency } = useSite()
 
   const navigation = [
     { name: t.nav.shop, href: "/shop" },
     { name: t.nav.collections, href: "/collections" },
     { name: t.nav.about, href: "/about" },
     { name: t.nav.contact, href: "/contact" },
-    { name: "Admin", href: "/admin" },
+    { name: t.nav.admin, href: "/admin" },
   ]
 
   return (
@@ -45,7 +47,7 @@ export function Header() {
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="text-foreground">
                   <Menu className="h-5 w-5" />
-                  <span className="sr-only">Open menu</span>
+                  <span className="sr-only">{t.header.openMenu}</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] bg-background overflow-y-auto">
@@ -83,6 +85,18 @@ export function Header() {
                         </button>
                       ))}
                     </div>
+                    <button
+                      type="button"
+                      onClick={toggleCurrency}
+                      className="mt-4 flex items-center gap-2 border border-muted px-4 py-2 text-foreground transition-colors hover:border-accent hover:text-accent"
+                    >
+                      {currency === "USD" ? (
+                        <DollarSign className="h-4 w-4" />
+                      ) : (
+                        <span className="flex h-4 w-4 items-center justify-center text-base font-semibold leading-none">₡</span>
+                      )}
+                      <span className="text-sm font-medium">{currency}</span>
+                    </button>
                   </div>
 
                   {/* Profile section for mobile */}
@@ -165,6 +179,22 @@ export function Header() {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
+
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="hidden sm:flex items-center gap-1.5 text-foreground hover:text-white"
+              onClick={toggleCurrency}
+              aria-label={t.header.currency}
+            >
+              {currency === "USD" ? (
+                <DollarSign className="h-4 w-4" />
+              ) : (
+                <span className="flex h-4 w-4 items-center justify-center text-base font-semibold leading-none">₡</span>
+              )}
+              <span className="text-xs font-medium uppercase tracking-wider">{currency}</span>
+            </Button>
 
             <Button variant="ghost" size="icon" className="text-foreground hover:text-white">
               <Search className="h-5 w-5" />

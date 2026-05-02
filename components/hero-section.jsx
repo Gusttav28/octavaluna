@@ -8,7 +8,7 @@ export function HeroSection() {
   const { t } = useLanguage()
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <section className="relative px-4 pb-16 pt-20 sm:px-6 sm:pb-20 sm:pt-24 lg:px-8">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-0.5 bg-accent" />
 
       <div className="mx-auto max-w-4xl text-center">
@@ -43,13 +43,12 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Decorative hero image */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-3xl px-8">
-        <div className="relative aspect-[16/9] overflow-hidden">
+      <div className="mx-auto mt-14 w-full max-w-4xl px-2 sm:mt-16 sm:px-6">
+        <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[5/3]">
           <img
             src="/elegant-gold-jewelry-necklace-on-cream-silk-fabric.jpg"
             alt="Elegant gold necklace displayed on cream silk"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover object-bottom"
           />
         </div>
       </div>
