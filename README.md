@@ -1,36 +1,162 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Octava Luna
+
+Octava Luna is a bilingual ecommerce storefront for a Costa Rica jewelry brand. The site includes public shopping experiences, product and collection detail pages, currency switching between USD and CRC, and an admin panel for managing product and collection content from the browser.
+
+## Tech Stack
+
+- Next.js App Router
+- React 19
+- Tailwind CSS 4
+- Radix UI primitives
+- Lucide React icons
+- Browser localStorage for editable product, collection, category, currency, and exchange-rate data
+
+## Main Features
+
+- Public storefront with home, shop, collections, about, contact, account, and admin routes.
+- Product cards with photos, categories, prices, discounts, inventory status, and translated descriptions.
+- Product detail screens with image gallery, quantity selector, share action, add-to-bag button, price, description, and related products.
+- Collection listing with category filters and collection detail screens.
+- Shop filters for availability, category, and price sorting.
+- Currency toggle between USD and CRC.
+- Admin-configurable CRC exchange rate for Costa Rica pricing.
+- Global top notification for save/reset actions.
+- Smooth scroll reveal motion for page content.
+- English and Spanish UI translation support.
+
+## Admin Panel
+
+The admin panel is available at `/admin`.
+
+Admins can manage:
+
+- Shop products.
+- Collections.
+- Product categories.
+- Collection categories.
+- Product photos, up to 4 per product.
+- Collection photos, up to 4 per collection.
+- Product title, price, category, discount, inventory, and off-site sales.
+- Product descriptions in English and Spanish.
+- Collection title, category, description, number of pieces, and cover images.
+- Featured collection content.
+- USD to CRC exchange rate.
+
+New product and collection categories can be created by typing a new category name in the admin forms. Those categories are saved locally and become available in filters and future admin edits.
+
+## Translations
+
+Translations live in `lib/translations.ts`.
+
+The UI supports:
+
+- English (`en`)
+- Spanish (`es`)
+
+All visible UI added to the storefront or admin panel should have matching English and Spanish keys. Product descriptions are stored separately from UI copy:
+
+- `descriptions.en`
+- `descriptions.es`
+
+When the language switcher changes the site language, product descriptions shown in the shop, category pages, product grid, and product details switch to the matching language.
+
+## Currency
+
+Currency behavior is managed by `lib/site-context.tsx`.
+
+- USD is the base currency for product prices.
+- CRC prices are calculated with the admin-configured exchange rate.
+- The header currency button switches all displayed product prices between USD and CRC.
+- The icon changes with the selected currency: dollar sign for USD and colon symbol for CRC.
+
+## Data Persistence
+
+Editable ecommerce data is currently saved in browser localStorage. This keeps the project lightweight and easy to test locally, but it means admin changes are browser-specific until a backend is added.
+
+Stored data includes:
+
+- Products: `octavaluna_products`
+- Product categories: `octavaluna_product_categories`
+- Collections: `octavaluna_collections`
+- Featured collection: `octavaluna_collections_featured`
+- Collection categories: `octavaluna_collection_categories`
+- Site settings, including currency and exchange rate: `octavaluna_site_settings`
+
+## Important Routes
+
+- `/` - Home page
+- `/shop` - Product shop with filters
+- `/shop/[category]` - Category-specific product listing
+- `/product/[slug]` - Product detail page
+- `/collections` - Collection listing with category filters
+- `/collections/[slug]` - Collection detail page
+- `/about` - Brand story
+- `/contact` - Contact page
+- `/account` - Account flow
+- `/admin` - Admin panel
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in the browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev
+```
 
-## Learn More
+Starts the local Next.js development server.
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Builds the production app.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run start
+```
 
-## Deploy on Vercel
+Starts the production build.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run lint
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Runs ESLint.
+
+## Verification
+
+Useful checks after changing UI or admin behavior:
+
+```bash
+npm run lint
+```
+
+```bash
+curl -I http://127.0.0.1:3000/admin
+curl -I http://127.0.0.1:3000/shop
+curl -I http://127.0.0.1:3000/collections
+curl -I http://127.0.0.1:3000/product/luna-crescent-necklace
+```
+
+Current lint note: product and collection images use regular `<img>` tags, so Next.js may warn about image optimization. Those warnings are known and do not block the current functionality.
+
+## Development Notes
+
+- Keep new UI labels in `lib/translations.ts` for both English and Spanish.
+- Keep product descriptions editable in both languages when adding or changing product forms.
+- Keep admin behavior consistent between shop products and collections.
+- Avoid adding a backend assumption until persistence is intentionally moved out of localStorage.
