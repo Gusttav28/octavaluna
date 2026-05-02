@@ -3,11 +3,13 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { useLanguage } from "@/lib/language-context"
+import { useSite } from "@/lib/site-context"
 import { useProducts } from "@/lib/use-products"
-import { getDiscountedPrice } from "@/lib/products"
+import { getDiscountedPrice, getProductDescription } from "@/lib/products"
 
 export function ProductGrid() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const { formatPrice } = useSite()
   const { products } = useProducts()
 
   return (
@@ -47,7 +49,7 @@ export function ProductGrid() {
                   <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent scale-x-0 transition-transform duration-300 group-hover:scale-x-100" />
                   {hasDiscount ? (
                     <span className="absolute top-4 right-4 bg-accent px-3 py-1 text-xs font-medium uppercase tracking-wider text-accent-foreground">
-                      On Sale -{Number(product.discountPercent)}%
+                      {t.products.onSale} -{Number(product.discountPercent)}%
                     </span>
                   ) : null}
                 </div>
@@ -55,16 +57,18 @@ export function ProductGrid() {
                   <h3 className="font-serif text-lg text-foreground group-hover:text-accent transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2">{product.description}</p>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{getProductDescription(product, language)}</p>
                   {hasDiscount ? (
                     <p className="text-sm text-muted-foreground">
-                      <span className="text-accent font-medium">${discountedPrice.toLocaleString()}</span>{" "}
-                      <span className="line-through">${Number(product.price).toLocaleString()}</span>
+                      <span className="text-accent font-medium">{formatPrice(discountedPrice)}</span>{" "}
+                      <span className="line-through">{formatPrice(product.price)}</span>
                     </p>
                   ) : (
-                    <p className="text-sm text-muted-foreground">${Number(product.price).toLocaleString()}</p>
+                    <p className="text-sm text-muted-foreground">{formatPrice(product.price)}</p>
                   )}
-                  <p className="text-xs uppercase tracking-wider text-muted-foreground">Units available: {inventory}</p>
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground">
+                    {t.products.unitsAvailable.replace("{count}", String(inventory))}
+                  </p>
                 </div>
               </Link>
             )

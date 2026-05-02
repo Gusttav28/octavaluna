@@ -1,15 +1,31 @@
 "use client"
 
 import Link from "next/link"
+import { useMemo, useState } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/lib/language-context"
 import { useCollections } from "@/lib/use-collections"
+import { useCollectionCategories } from "@/lib/use-collection-categories"
+import { mergeUniqueCollectionCategoryNames } from "@/lib/collection-categories"
 
 export default function CollectionsPage() {
   const { t } = useLanguage()
   const { collections, featuredCollection } = useCollections()
+  const { categories } = useCollectionCategories()
+  const [categoryFilter, setCategoryFilter] = useState("all")
+
+  const categoryOptions = useMemo(
+    () => mergeUniqueCollectionCategoryNames([categories, collections.map((collection) => collection.category).filter(Boolean)]),
+    [categories, collections],
+  )
+
+  const filteredCollections = useMemo(() => {
+    if (categoryFilter === "all") return collections
+    return collections.filter((collection) => String(collection.category || "").toLowerCase() === categoryFilter.toLowerCase())
+  }, [collections, categoryFilter])
 
   return (
     <div className="min-h-screen bg-background">
@@ -74,10 +90,31 @@ export default function CollectionsPage() {
             <h2 className="mt-4 font-serif text-3xl tracking-tight text-foreground sm:text-4xl">
               {t.collections.allCollections}
             </h2>
+            <div className="mt-8 flex flex-wrap justify-center gap-2">
+              <Button
+                type="button"
+                variant={categoryFilter === "all" ? "default" : "outline"}
+                className={categoryFilter === "all" ? "" : "bg-transparent"}
+                onClick={() => setCategoryFilter("all")}
+              >
+                {t.collections.allCategories}
+              </Button>
+              {categoryOptions.map((category) => (
+                <Button
+                  key={category}
+                  type="button"
+                  variant={categoryFilter === category ? "default" : "outline"}
+                  className={categoryFilter === category ? "" : "bg-transparent"}
+                  onClick={() => setCategoryFilter(category)}
+                >
+                  {category}
+                </Button>
+              ))}
+            </div>
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2">
-            {collections.map((collection) => (
+            {filteredCollections.map((collection) => (
               <Link
                 key={collection.id}
                 href={collection.href}
@@ -93,6 +130,7 @@ export default function CollectionsPage() {
                   </div>
                   <div className="flex flex-col justify-center p-8">
                     <span className="text-xs font-medium uppercase tracking-wider text-accent">
+                      {collection.category ? `${collection.category} · ` : ""}
                       {collection.pieces} {t.collections.pieces}
                     </span>
                     <h3 className="mt-2 font-serif text-2xl text-foreground group-hover:text-accent transition-colors">
