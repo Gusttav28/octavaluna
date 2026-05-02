@@ -1255,7 +1255,7 @@ export default function AdminPage() {
                 {t.admin.addCollection}
               </Button>
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
-                <div className="flex flex-col gap-1 sm:min-w-[220px]">
+                <div className="flex flex-col mb-5 gap-1 sm:min-w-[220px]">
                   <Label className="text-xs uppercase tracking-wider text-muted-foreground">{t.admin.filterByCollectionCategory}</Label>
                   <select
                     className={SELECT_CLASS}
